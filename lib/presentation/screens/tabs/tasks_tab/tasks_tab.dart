@@ -1,5 +1,6 @@
 import 'package:easy_date_timeline/easy_date_timeline.dart';
 import 'package:flutter/material.dart';
+import 'package:todo_app/core/colors_manager.dart';
 
 class TasksTab extends StatelessWidget {
   const TasksTab({super.key});
@@ -13,24 +14,63 @@ class TasksTab extends StatelessWidget {
             initialDate: DateTime.now(),
             onDateChange: (selectedDate) {
               //`selectedDate` the new date selected.
+              print(selectedDate);
             },
             headerProps: const EasyHeaderProps(
               monthPickerType: MonthPickerType.switcher,
               dateFormatter: DateFormatter.fullDateDMY(),
             ),
             dayProps: const EasyDayProps(
+
               dayStructure: DayStructure.dayStrDayNum,
               activeDayStyle: DayStyle(
+                dayNumStyle: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w600,
+                    color: ColorsManager.blueColor
+                ),
+                dayStrStyle: TextStyle(
+                    fontSize: 15,
+                    fontWeight: FontWeight.w600,
+                    color: ColorsManager.blueColor
+                ),
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.all(Radius.circular(8)),
-                  gradient: LinearGradient(
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
-                    colors: [
-                      Color(0xff3371FF),
-                      Color(0xff8426D6),
-                    ],
-                  ),
+                    borderRadius: BorderRadius.all(Radius.circular(20)),
+                    color: ColorsManager.whiteColor
+
+                  // gradient: LinearGradient(
+                  //   begin: Alignment.topCenter,
+                  //   end: Alignment.bottomCenter,
+                  //   colors: [
+                  //     Color(0xff3371FF),
+                  //     Color(0xff8426D6),
+                  //   ],
+                  // ),
+                ),
+              ),
+              inactiveDayStyle: DayStyle(
+                dayNumStyle: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w600,
+                    color: Colors.black
+                ),
+                dayStrStyle: TextStyle(
+                    fontSize: 15,
+                    fontWeight: FontWeight.w600,
+                    color: Colors.black
+                ),
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.all(Radius.circular(20)),
+                    color: ColorsManager.whiteColor
+
+                  // gradient: LinearGradient(
+                  //   begin: Alignment.topCenter,
+                  //   end: Alignment.bottomCenter,
+                  //   colors: [
+                  //     Color(0xff3371FF),
+                  //     Color(0xff8426D6),
+                  //   ],
+                  // ),
                 ),
               ),
             ),

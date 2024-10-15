@@ -5,6 +5,7 @@ import 'package:todo_app/core/styles_manager.dart';
 class MyTheme{
 static ThemeData lightTheme=ThemeData(
   primaryColor: ColorsManager.blueColor,
+  dividerColor: ColorsManager.blueColor,
   appBarTheme: AppBarTheme(
     backgroundColor: ColorsManager.blueColor,
     elevation: 4,
@@ -37,6 +38,9 @@ bottomAppBarTheme:const BottomAppBarTheme(
   elevation: 14,
   shape: CircularNotchedRectangle(
   ),
-)
+),
+  cardTheme: const CardTheme(
+    color: ColorsManager.whiteColor,
+  ),
 );
 }
