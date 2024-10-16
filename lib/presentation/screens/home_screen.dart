@@ -3,7 +3,7 @@ import 'package:todo_app/presentation/screens/tabs/settings_tab/settings_tab.dar
 import 'package:todo_app/presentation/screens/tabs/tasks_tab/tasks_tab.dart';
 
 class HomeScreen extends StatefulWidget {
-  HomeScreen({super.key});
+  const HomeScreen({super.key});
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -16,16 +16,17 @@ class _HomeScreenState extends State<HomeScreen> {
   ];
 
   int selectedIndex = 0;
+  String appBarMyApp='';
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('To Do List'),
+        title:  Text(appBarMyApp),
       ),
       extendBody: true,
       floatingActionButton: FloatingActionButton(
         onPressed: () {},
-        child: Icon(Icons.add),
+        child: const Icon(Icons.add),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: BottomAppBar(
@@ -34,8 +35,15 @@ class _HomeScreenState extends State<HomeScreen> {
             currentIndex: selectedIndex,
             onTap: (index) {
               selectedIndex = index;
+              if(selectedIndex==0){
+                appBarMyApp='To Do List';
+              }else{
+                appBarMyApp='Settings';
+              }
               setState(() {});
+
             },
+
             items: const [
               BottomNavigationBarItem(icon: Icon(Icons.list), label: 'Tasks'),
               BottomNavigationBarItem(
