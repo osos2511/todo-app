@@ -41,6 +41,8 @@ class MyTheme {
       titleMedium:MyTextStyles.cardTitleTextStyle,
       titleSmall: MyTextStyles.cardTimeTextStyle,
       labelSmall: MyTextStyles.settingsItemTextStyle,
+      labelMedium: MyTextStyles.textFormFieldTextStyle,
+      displaySmall: MyTextStyles.elevatedButtonTextStyle,
     ),
   );
 }
