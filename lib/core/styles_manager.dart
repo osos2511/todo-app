@@ -13,5 +13,8 @@ class MyTextStyles {
       fontWeight: FontWeight.w400, color: Colors.black, fontSize: 15);
   static TextStyle settingsItemTextStyle = const TextStyle(
       fontWeight: FontWeight.w700, color: Colors.black, fontSize: 20);
+  static TextStyle textFormFieldTextStyle = const TextStyle(
+      fontWeight: FontWeight.w500, color: Colors.white, fontSize: 18);
+  static TextStyle elevatedButtonTextStyle=const TextStyle(color: Color(0xFF004182),fontSize: 18,fontWeight: FontWeight.w800);
 }
 

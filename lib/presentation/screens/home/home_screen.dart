@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:todo_app/presentation/screens/tabs/settings_tab/settings_tab.dart';
-import 'package:todo_app/presentation/screens/tabs/tasks_tab/tasks_tab.dart';
+import 'package:todo_app/presentation/screens/home/tabs/settings_tab/settings_tab.dart';
+import 'package:todo_app/presentation/screens/home/tabs/tasks_tab/tasks_tab.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
