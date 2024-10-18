@@ -24,33 +24,36 @@ class _HomeScreenState extends State<HomeScreen> {
         title:  Text(appBarMyApp),
       ),
       extendBody: true,
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {},
-        child: const Icon(Icons.add),
-      ),
+      floatingActionButton: buildFab(),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      bottomNavigationBar: BottomAppBar(
-        notchMargin: 8,
-        child: BottomNavigationBar(
-            currentIndex: selectedIndex,
-            onTap: (index) {
-              selectedIndex = index;
-              if(selectedIndex==0){
-                appBarMyApp='To Do List';
-              }else{
-                appBarMyApp='Settings';
-              }
-              setState(() {});
-
-            },
-
-            items: const [
-              BottomNavigationBarItem(icon: Icon(Icons.list), label: 'Tasks'),
-              BottomNavigationBarItem(
-                  icon: Icon(Icons.settings), label: 'Settings'),
-            ]),
-      ),
+      bottomNavigationBar: buildBottomAppBar(),
       body: tabs[selectedIndex],
     );
   }
+  Widget buildFab() => FloatingActionButton(
+    onPressed: () {},
+    child: const Icon(Icons.add),
+  );
+  Widget buildBottomAppBar() => BottomAppBar(
+    notchMargin: 8,
+    child: BottomNavigationBar(
+        currentIndex: selectedIndex,
+        onTap: (index) {
+          selectedIndex = index;
+          if(selectedIndex==0){
+            appBarMyApp='To Do List';
+          }else{
+            appBarMyApp='Settings';
+          }
+          setState(() {});
+
+        },
+
+        items: const [
+          BottomNavigationBarItem(icon: Icon(Icons.list), label: 'Tasks'),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.settings), label: 'Settings'),
+        ]),
+  );
+
 }
