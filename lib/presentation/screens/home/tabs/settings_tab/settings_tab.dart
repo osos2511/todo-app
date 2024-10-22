@@ -41,15 +41,14 @@ class _SettingsTabState extends State<SettingsTab> {
                     isExpanded: false,
                     style: const TextStyle(color: Colors.black,fontSize: 14,fontWeight: FontWeight.w400),
                     items: <String>['Light','Dark'].map((String value) {
-                      selectedTheme=value;
                       return DropdownMenuItem<String>(
-                        value: selectedTheme,
-                        child: Text(selectedTheme??''),
+                        value: value,
+                        child: Text(value),
                       );
                     }).toList(),
                     onChanged: (newTheme) {
-                      selectedTheme=newTheme;
                       setState(() {
+                        selectedTheme=newTheme;
 
                       });
                     },
@@ -82,16 +81,15 @@ class _SettingsTabState extends State<SettingsTab> {
                     isExpanded: false,
                     style: const TextStyle(color: Colors.black,fontSize: 14,fontWeight: FontWeight.w400),
                     items: <String>['English','Arabic'].map((String value) {
-                      selectedLang=value;
                       return DropdownMenuItem<String>(
-                        value: selectedLang,
-                        child: Text(selectedLang??''),
+                        value: value,
+                        child: Text(value),
                       );
                     }).toList(),
                     onChanged: (newLang) {
-                      selectedLang=newLang;
-                      setState(() {
 
+                      setState(() {
+                        selectedLang=newLang;
                       });
                     },
                   )
