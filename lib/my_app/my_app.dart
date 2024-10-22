@@ -9,9 +9,10 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       onGenerateRoute: RoutesManager.router,
-      initialRoute: RoutesManager.registerRoute,
-      themeMode: ThemeMode.light,
-      theme: MyTheme.lightTheme,
+      initialRoute: RoutesManager.homeRoute,
+      themeMode: ThemeMode.dark,
+      theme: MyTheme.light,
+      darkTheme: MyTheme.dark,
     );
   }
 }
