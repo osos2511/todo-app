@@ -9,7 +9,7 @@ class TaskItem extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.all(8),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Theme.of(context).indicatorColor,
         borderRadius: BorderRadius.circular(15),
       ),
       child: Slidable(
@@ -62,7 +62,7 @@ class TaskItem extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                      const Icon(Icons.lock_clock),
+                       Icon(Icons.lock_clock,color: Theme.of(context).iconTheme.color,),
                       Text('10:30 AM',style: Theme.of(context).textTheme.titleSmall),
         
                     ],),

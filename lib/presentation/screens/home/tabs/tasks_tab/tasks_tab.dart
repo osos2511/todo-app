@@ -16,13 +16,20 @@ class TasksTab extends StatelessWidget {
             //`selectedDate` the new date selected.
             print(selectedDate);
           },
-          headerProps: const EasyHeaderProps(
+          headerProps:  EasyHeaderProps(
             monthPickerType: MonthPickerType.switcher,
-            dateFormatter: DateFormatter.fullDateDMY(),
+            monthStyle: TextStyle(color: Theme.of(context).canvasColor),
+            selectedDateStyle: TextStyle(color: Theme.of(context).canvasColor),
+            dateFormatter: DateFormatter.fullDateDMY(
+
+            ),
+
           ),
+
           dayProps: const EasyDayProps(
 
             dayStructure: DayStructure.dayStrDayNum,
+
             activeDayStyle: DayStyle(
               dayNumStyle: TextStyle(
                   fontSize: 18,

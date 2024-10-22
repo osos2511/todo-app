@@ -40,7 +40,9 @@ class LoginScreen extends StatelessWidget {
                     height: 40,
                   ),
                   ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.pushReplacementNamed(context, RoutesManager.homeRoute);
+                    },
                     style: ElevatedButton.styleFrom(
                         minimumSize: const Size(double.infinity, 50),
                         backgroundColor: Colors.white,
