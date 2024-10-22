@@ -1,5 +1,6 @@
 import 'package:easy_date_timeline/easy_date_timeline.dart';
 import 'package:flutter/material.dart';
+import 'package:todo_app/core/colors_manager.dart';
 import 'package:todo_app/core/utils/date_utils.dart';
 
 class AddTaskBottomSheet extends StatefulWidget {
@@ -69,6 +70,7 @@ class _AddTaskBottomSheetState extends State<AddTaskBottomSheet> {
           const Spacer(),
           ElevatedButton(
             onPressed: () {},
+            style: ElevatedButton.styleFrom(backgroundColor: ColorsManager.blueColor),
             child: const Text('Add Task'),
           ),
         ],
