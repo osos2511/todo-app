@@ -3,6 +3,10 @@ import 'package:todo_app/core/colors_manager.dart';
 
 class MyTheme {
   static ThemeData light = ThemeData(
+    colorScheme: ColorScheme.fromSeed(
+      seedColor: ColorsManager.blueColor,
+      primary: ColorsManager.blueColor,
+    ),
     primaryColor: ColorsManager.blueColor,
     dividerColor: ColorsManager.blueColor,
     indicatorColor: Colors.white,
@@ -70,10 +74,17 @@ class MyTheme {
     iconTheme: IconThemeData(
         color: ColorsManager.black
     ),
+    // datePickerTheme: DatePickerThemeData(
+    //   backgroundColor: ColorsManager.blueColor
+    // ),
   );
 
 
   static ThemeData dark = ThemeData(
+    colorScheme: ColorScheme.fromSeed(
+      seedColor: ColorsManager.blackAccent,
+      primary: ColorsManager.blackAccent,
+    ),
     primaryColor: ColorsManager.blueColor,
     dividerColor: ColorsManager.blueColor,
     indicatorColor: ColorsManager.blackAccent,
@@ -146,6 +157,10 @@ class MyTheme {
         ),
       ),
     ),
+    // datePickerTheme: DatePickerThemeData(
+    //     backgroundColor: ColorsManager.blackAccent
+    // ),
+
 
   );
 }
