@@ -11,10 +11,17 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  List<Widget> tabs = [
-    const TasksTab(),
-    const SettingsTab(),
-  ];
+  GlobalKey<TasksTabState>tasksTabKey=GlobalKey();
+  List<Widget> tabs = [];
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    tabs = [
+      TasksTab(key: tasksTabKey,),
+      const SettingsTab(),
+    ];
+  }
 
   int selectedIndex = 0;
   String appBarMyApp='';
@@ -32,8 +39,9 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
   Widget buildFab() => FloatingActionButton(
-    onPressed: () {
-      AddTaskBottomSheet.show(context);
+    onPressed: ()async {
+     await AddTaskBottomSheet.show(context);
+     tasksTabKey.currentState!.readTodosFromFireStore();
     },
     child: const Icon(Icons.add),
   );

@@ -1,10 +1,28 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:easy_date_timeline/easy_date_timeline.dart';
 import 'package:flutter/material.dart';
 import 'package:todo_app/core/colors_manager.dart';
 import 'package:todo_app/core/reusable_components/task_item.dart';
 
-class TasksTab extends StatelessWidget {
-  const TasksTab({super.key});
+import '../../../../../database_manager/model/todo_dm.dart';
+
+class TasksTab extends StatefulWidget {
+   TasksTab({super.key});
+
+  @override
+  State<TasksTab> createState() => TasksTabState();
+}
+
+class TasksTabState extends State<TasksTab> {
+  List<TodoDm>todosList=[];
+  DateTime calenderSelectedDate=DateTime.now();
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    readTodosFromFireStore();
+
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -13,14 +31,15 @@ class TasksTab extends StatelessWidget {
         EasyDateTimeLine(
           initialDate: DateTime.now(),
           onDateChange: (selectedDate) {
-            //`selectedDate` the new date selected.
-            print(selectedDate);
+            calenderSelectedDate=selectedDate;
+            readTodosFromFireStore();
+
           },
           headerProps:  EasyHeaderProps(
             monthPickerType: MonthPickerType.switcher,
             monthStyle: TextStyle(color: Theme.of(context).canvasColor),
             selectedDateStyle: TextStyle(color: Theme.of(context).canvasColor),
-            dateFormatter: DateFormatter.fullDateDMY(
+            dateFormatter: const DateFormatter.fullDateDMY(
 
             ),
 
@@ -83,8 +102,32 @@ class TasksTab extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 10),
-        const TaskItem(),
+        Expanded(
+          flex: 70,
+          child: ListView.builder(
+            physics: const BouncingScrollPhysics(),
+            itemBuilder: (context, index) => TaskItem(todo: todosList[index]),
+              itemCount: todosList.length,),
+        ),
       ],
     );
+  }
+
+  void readTodosFromFireStore()async{
+    CollectionReference todoCollection = FirebaseFirestore.instance.collection(TodoDm.collectionName);
+    QuerySnapshot querySnapshot=await todoCollection.get();
+    List<QueryDocumentSnapshot>documents=querySnapshot.docs;
+    todosList=documents.map((docSnapShot){
+     Map<String,dynamic>json= docSnapShot.data() as Map<String,dynamic>;
+     TodoDm todo=TodoDm.fromJson(json);
+     return todo;
+
+    },).toList();
+    todosList=todosList.where((todo)=>todo.date.day==calenderSelectedDate.day
+        &&todo.date.month==calenderSelectedDate.month
+        &&todo.date.year==calenderSelectedDate.year).toList();
+setState(() {
+
+});
   }
 }

@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:todo_app/database_manager/model/todo_dm.dart';
 
 class TaskItem extends StatelessWidget {
-  const TaskItem({super.key});
-
+   TaskItem({super.key,required this.todo});
+TodoDm todo;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -57,8 +58,10 @@ class TaskItem extends StatelessWidget {
                 const SizedBox(width: 25,),
                 Column(
                   children: [
-                    Text('Task Title',style:  Theme.of(context).textTheme.titleMedium),
+                    Text(todo.title,style:  Theme.of(context).textTheme.titleMedium),
                     const SizedBox(height: 10,),
+                    Text(todo.description,style:  Theme.of(context).textTheme.titleMedium),
+
                     Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
