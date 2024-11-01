@@ -36,6 +36,7 @@ class _SettingsTabState extends State<SettingsTab> {
                   ),),
                   DropdownButton<String>(
                     underline: const SizedBox.shrink(),
+                    dropdownColor: Colors.white,
                     elevation: 0,
                     padding: const EdgeInsets.all(0),
                     isExpanded: false,
@@ -79,6 +80,7 @@ class _SettingsTabState extends State<SettingsTab> {
                     elevation: 0,
                     padding: const EdgeInsets.all(0),
                     isExpanded: false,
+                    dropdownColor: Colors.white,
                     style: const TextStyle(color: Colors.black,fontSize: 14,fontWeight: FontWeight.w400),
                     items: <String>['English','Arabic'].map((String value) {
                       return DropdownMenuItem<String>(
