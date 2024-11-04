@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:todo_app/core/colors_manager.dart';
 import 'package:todo_app/core/utils/date_utils.dart';
 import 'package:todo_app/database_manager/model/todo_dm.dart';
+import 'package:todo_app/database_manager/model/user_dm.dart';
 
 class AddTaskBottomSheet extends StatefulWidget {
   AddTaskBottomSheet({super.key});
@@ -11,7 +12,7 @@ class AddTaskBottomSheet extends StatefulWidget {
   State<AddTaskBottomSheet> createState() => _AddTaskBottomSheetState();
 
   static Future show(BuildContext context) {
-   return showModalBottomSheet(
+    return showModalBottomSheet(
       isScrollControlled: true,
       context: context,
       builder: (context) => Padding(
@@ -119,10 +120,11 @@ class _AddTaskBottomSheetState extends State<AddTaskBottomSheet> {
   void addToDoToFireStore() {
     if (formKey.currentState?.validate() == false) return;
 
-    CollectionReference todoCollection =
-        FirebaseFirestore.instance.collection(TodoDm.collectionName);
+    CollectionReference todoCollection = FirebaseFirestore.instance
+        .collection(UserDm.collectionName)
+        .doc(UserDm.userDm!.id)
+        .collection(TodoDm.collectionName);
     DocumentReference doc = todoCollection.doc();
-
     TodoDm todo = TodoDm(
       id: doc.id,
       title: titleController.text,
@@ -130,16 +132,12 @@ class _AddTaskBottomSheetState extends State<AddTaskBottomSheet> {
       date: userSelectedDate,
       isDone: false,
     );
-
-    // add data to fireStore
-    doc.set(todo.toJson())
+    doc
+        .set(todo.toJson())
         .then(
-          (_) {},
-        )
-        .timeout(const Duration(milliseconds: 500), onTimeout: () {
-      if (mounted) {
-        Navigator.pop(context);
-      }
-    });
+          (value) {
+            Navigator.pop(context);
+          },
+        );
   }
 }

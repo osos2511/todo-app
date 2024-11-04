@@ -1,10 +1,20 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:todo_app/core/utils/dialog_utils.dart';
 import 'package:todo_app/database_manager/model/todo_dm.dart';
+import 'package:todo_app/database_manager/model/user_dm.dart';
 
-class TaskItem extends StatelessWidget {
-   TaskItem({super.key,required this.todo});
-TodoDm todo;
+class TaskItem extends StatefulWidget {
+  Function onDeleteClicked;
+  TaskItem({super.key, required this.todo, required this.onDeleteClicked});
+  TodoDm todo;
+
+  @override
+  State<TaskItem> createState() => _TaskItemState();
+}
+
+class _TaskItemState extends State<TaskItem> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -17,9 +27,11 @@ TodoDm todo;
         startActionPane: ActionPane(
           extentRatio: 0.3,
           motion: const DrawerMotion(),
-          children:  [
+          children: [
             SlidableAction(
               onPressed: (context) {
+                deleteTaskItem();
+               // widget.onDeleteClicked();
               },
               borderRadius: BorderRadius.circular(15),
               backgroundColor: const Color(0xFFFE4A49),
@@ -32,10 +44,9 @@ TodoDm todo;
         endActionPane: ActionPane(
           extentRatio: 0.3,
           motion: const DrawerMotion(),
-          children:  [
+          children: [
             SlidableAction(
-              onPressed: (context) {
-              },
+              onPressed: (context) {},
               borderRadius: BorderRadius.circular(15),
               backgroundColor: Theme.of(context).primaryColor,
               foregroundColor: Colors.white,
@@ -46,7 +57,7 @@ TodoDm todo;
         ),
         child: Card(
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8,vertical: 12),
+            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
@@ -55,35 +66,59 @@ TodoDm todo;
                   height: 65,
                   color: Theme.of(context).dividerColor,
                 ),
-                const SizedBox(width: 25,),
+                const SizedBox(
+                  width: 25,
+                ),
                 Column(
                   children: [
-                    Text(todo.title,style:  Theme.of(context).textTheme.titleMedium),
-                    const SizedBox(height: 10,),
-                    Text(todo.description,style:  Theme.of(context).textTheme.titleMedium),
-
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                       Icon(Icons.lock_clock,color: Theme.of(context).iconTheme.color,),
-                      Text('10:30 AM',style: Theme.of(context).textTheme.titleSmall),
-        
-                    ],),
+                    Text(widget.todo.title,
+                        style: Theme.of(context).textTheme.titleMedium),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Text(widget.todo.description,
+                        style: Theme.of(context).textTheme.titleMedium),
                   ],
                 ),
                 const Spacer(),
                 Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 12,vertical: 4),
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
                     decoration: BoxDecoration(
                       color: Theme.of(context).primaryColor,
                       borderRadius: BorderRadius.circular(10),
                     ),
-                    child: const Icon(Icons.check,color: Colors.white,size: 35,)),
+                    child: const Icon(
+                      Icons.check,
+                      color: Colors.white,
+                      size: 35,
+                    )),
               ],
             ),
           ),
         ),
       ),
     );
+  }
+
+  void deleteTaskItem() async {
+    var taskCollection = FirebaseFirestore.instance
+        .collection(UserDm.collectionName)
+        .doc(UserDm.userDm!.id)
+        .collection(TodoDm.collectionName);
+    await DialogUtils.messagingDialog(context,
+        content: 'Are You Sure Delete This?',
+        negActionTitle: 'NO',
+        posActionTitle: 'YES',
+        posAction: ()async{
+      widget.onDeleteClicked();
+      DialogUtils.messagingDialog(context,
+          content: 'Your Todo Is Deleted Successfully', posActionTitle: 'OK');
+      await taskCollection.doc(widget.todo.id).delete();
+        },
+    negAction:(){
+    }
+    );
+
   }
 }

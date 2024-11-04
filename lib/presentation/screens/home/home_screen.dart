@@ -24,7 +24,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   int selectedIndex = 0;
-  String appBarMyApp='';
+  String appBarMyApp='To Do List';
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -50,14 +50,14 @@ class _HomeScreenState extends State<HomeScreen> {
     child: BottomNavigationBar(
         currentIndex: selectedIndex,
         onTap: (index) {
-          selectedIndex = index;
-          if(selectedIndex==0){
-            appBarMyApp='To Do List';
-          }else{
-            appBarMyApp='Settings';
-          }
-          setState(() {});
-
+          setState(() {
+            selectedIndex = index;
+            if(selectedIndex==0){
+              appBarMyApp='To Do List';
+            }else{
+              appBarMyApp='Settings';
+            }
+          });
         },
 
         items: const [
