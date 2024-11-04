@@ -1,12 +1,24 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:todo_app/core/assets_manager.dart';
 import 'package:todo_app/core/strings_manager.dart';
+import 'package:todo_app/database_manager/model/user_dm.dart';
+import '../../../../core/constant_manager.dart';
 import '../../../../core/reusable_components/custom_text_form_field.dart';
 import '../../../../core/routes_manager.dart';
+import '../../../../core/utils/dialog_utils.dart';
 
-class LoginScreen extends StatelessWidget {
-  LoginScreen({super.key});
+class LoginScreen extends StatefulWidget {
+  const LoginScreen({super.key});
+
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
   TextEditingController emailController = TextEditingController();
+
   TextEditingController passwordController = TextEditingController();
 
   @override
@@ -41,7 +53,7 @@ class LoginScreen extends StatelessWidget {
                   ),
                   ElevatedButton(
                     onPressed: () {
-                      Navigator.pushReplacementNamed(context, RoutesManager.homeRoute);
+                      signIn(context);
                     },
                     style: ElevatedButton.styleFrom(
                         minimumSize: const Size(double.infinity, 50),
@@ -94,6 +106,7 @@ class LoginScreen extends StatelessWidget {
     },
     controller: emailController,
   );
+
   Widget buildPassField()=>CustomTextFormField(
     hintText: 'Enter your password',
     validator: (input) {
@@ -108,4 +121,39 @@ class LoginScreen extends StatelessWidget {
     controller: passwordController,
     isSecure: true,
   );
+
+    void signIn(context) async{
+
+      try {
+        DialogUtils.showLoadingDialog(context,message: 'Loading...');
+        final credential = await FirebaseAuth.instance.signInWithEmailAndPassword(
+          email: emailController.text,
+          password: passwordController.text,
+        );
+        UserDm.userDm=await getUserFromFireStore(credential.user!.uid);
+        DialogUtils.hideDialog(context);
+        DialogUtils.messagingDialog(context,content: 'User Logged-In Now',posActionTitle: 'Ok',posAction: (){
+          Navigator.pushReplacementNamed(context, RoutesManager.homeRoute);
+        });
+      } on FirebaseAuthException catch (authError) {
+        DialogUtils.hideDialog(context);
+        String message;
+        if (authError.code == AppConstants.invalidCredential) {
+          message=AppConstants.wrongEmailOrPassword;
+          DialogUtils.messagingDialog(context,title: 'Error',content: message,posActionTitle: 'ok');
+        }
+      } catch (e) {
+        DialogUtils.hideDialog(context);
+        DialogUtils.messagingDialog(context,title: 'Error',content: e.toString(),posActionTitle: 'ok');
+      }
+  }
+
+  getUserFromFireStore(String uid)async{
+    CollectionReference collectionReference=
+    FirebaseFirestore.instance.collection(UserDm.collectionName);
+    DocumentReference userDoc=collectionReference.doc(uid);
+    DocumentSnapshot documentSnapshot= await userDoc.get();
+    var json=documentSnapshot.data() as Map<String,dynamic>;
+    return UserDm.fromFireStore(json);
+  }
 }
