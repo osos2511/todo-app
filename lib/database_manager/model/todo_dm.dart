@@ -30,4 +30,20 @@ class TodoDm{
 
     );
   }
+
+  TodoDm copyWith({
+    String? id,
+    String? updatedName,
+    String? updatedDetails,
+    DateTime? date,
+    bool? isDone,
+  }) {
+    return TodoDm(
+      id: id ?? this.id,
+      title: updatedName ?? title,
+      description: updatedDetails ?? description,
+      date: date ?? this.date,
+      isDone: isDone ?? this.isDone,
+    );
+  }
 }
