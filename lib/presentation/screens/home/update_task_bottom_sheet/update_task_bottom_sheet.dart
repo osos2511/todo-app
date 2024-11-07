@@ -3,35 +3,28 @@ import 'package:easy_date_timeline/easy_date_timeline.dart';
 import 'package:flutter/material.dart';
 import 'package:todo_app/core/colors_manager.dart';
 import 'package:todo_app/core/utils/date_utils.dart';
+import 'package:todo_app/core/utils/dialog_utils.dart';
 import 'package:todo_app/database_manager/model/todo_dm.dart';
 import 'package:todo_app/database_manager/model/user_dm.dart';
 
-class AddTaskBottomSheet extends StatefulWidget {
-  AddTaskBottomSheet({super.key,this.todoDm});
+class UpdateTaskBottomSheet extends StatefulWidget {
+  UpdateTaskBottomSheet({super.key, this.todoDm});
   TodoDm? todoDm;
   @override
-  State<AddTaskBottomSheet> createState() => _AddTaskBottomSheetState();
-
-  static Future show(BuildContext context) {
-    return showModalBottomSheet(
-      isScrollControlled: true,
-      context: context,
-      builder: (context) => Padding(
-        padding:
-            EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
-        child: AddTaskBottomSheet(),
-      ),
-    );
-  }
+  State<UpdateTaskBottomSheet> createState() => _UpdateTaskBottomSheetState();
 }
 
-class _AddTaskBottomSheetState extends State<AddTaskBottomSheet> {
+class _UpdateTaskBottomSheetState extends State<UpdateTaskBottomSheet> {
   DateTime userSelectedDate = DateTime.now();
   TextEditingController titleController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
   var formKey = GlobalKey<FormState>();
+  final Stream<QuerySnapshot> updateTodo = FirebaseFirestore.instance.collection(TodoDm.collectionName).snapshots();
   @override
   Widget build(BuildContext context) {
+    titleController.text = widget.todoDm!.title;
+    descriptionController.text = widget.todoDm!.description;
+
     return Container(
       color: Theme.of(context).indicatorColor,
       height: MediaQuery.of(context).size.height * 0.4,
@@ -42,7 +35,7 @@ class _AddTaskBottomSheetState extends State<AddTaskBottomSheet> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Text(
-              'Add New Task',
+              'Update Task',
               textAlign: TextAlign.center,
               style: Theme.of(context).textTheme.headlineMedium,
             ),
@@ -74,29 +67,18 @@ class _AddTaskBottomSheetState extends State<AddTaskBottomSheet> {
             const SizedBox(
               height: 8,
             ),
-            Text(
-              'Select Date',
-              style: Theme.of(context).textTheme.displayMedium!.copyWith(
-                    color: Theme.of(context).canvasColor,
-                  ),
-            ),
-            InkWell(
-                onTap: () {
-                  showTaskDatePicker();
-                },
-                child: Text(
-                  userSelectedDate.dateFormatted(),
-                  textAlign: TextAlign.center,
-                  style: Theme.of(context).textTheme.displayMedium,
-                )),
             const Spacer(),
             ElevatedButton(
               onPressed: () {
-                addToDoToFireStore();
+                if (formKey.currentState?.validate() == true) {
+                  setState(() {
+                    updateToDoToFireStore();
+                  });
+                }
               },
               style: ElevatedButton.styleFrom(
                   backgroundColor: ColorsManager.blueColor),
-              child: const Text('Add Task'),
+              child: const Text('Update Task'),
             ),
           ],
         ),
@@ -118,27 +100,27 @@ class _AddTaskBottomSheetState extends State<AddTaskBottomSheet> {
     setState(() {});
   }
 
-  void addToDoToFireStore() {
-    if (formKey.currentState?.validate() == false) return;
-
-    CollectionReference todoCollection = FirebaseFirestore.instance
+  void updateToDoToFireStore() async {
+    var taskCollection = FirebaseFirestore.instance
         .collection(UserDm.collectionName)
         .doc(UserDm.userDm!.id)
         .collection(TodoDm.collectionName);
-    DocumentReference doc = todoCollection.doc();
-    TodoDm todo = TodoDm(
-      id: doc.id,
-      title: titleController.text,
-      description: descriptionController.text,
-      date: userSelectedDate,
-      isDone: false,
+    DocumentReference doc = taskCollection.doc(widget.todoDm!.id);
+    TodoDm updateTask = widget.todoDm!.copyWith(
+      id: widget.todoDm!.id,
+      updatedName: titleController.text,
+      updatedDetails: descriptionController.text,
+      date: widget.todoDm!.date,
+      isDone: widget.todoDm!.isDone,
     );
-    doc
-        .set(todo.toJson())
-        .then(
-          (value) {
-            Navigator.pop(context);
-          },
-        );
+    await doc.update(updateTask.toJson()).then(
+      (value) {
+        Navigator.pop(context);
+      },
+    );
+    DialogUtils.messagingDialog(context,
+        content: 'Task is update Successfully');
+    DialogUtils.hideDialog(context);
+    setState(() {});
   }
 }
