@@ -16,7 +16,7 @@ class TodoDm{
     "id":id,
     "title":title,
     "description":description,
-    "date":date,
+    "date":Timestamp.fromDate(date),
     "isDone":isDone,
   };
 

@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:easy_date_timeline/easy_date_timeline.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:todo_app/core/colors_manager.dart';
 import 'package:todo_app/core/utils/date_utils.dart';
 import 'package:todo_app/database_manager/model/todo_dm.dart';
@@ -26,7 +26,10 @@ class AddTaskBottomSheet extends StatefulWidget {
 }
 
 class _AddTaskBottomSheetState extends State<AddTaskBottomSheet> {
-  DateTime userSelectedDate = DateTime.now();
+  DateTime userSelectedDate =
+  DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day);
+  DateFormat dateFormat = DateFormat('yyyy/MM/dd');
+
   TextEditingController titleController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
   var formKey = GlobalKey<FormState>();
