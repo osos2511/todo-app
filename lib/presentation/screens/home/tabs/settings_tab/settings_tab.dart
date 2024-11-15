@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:todo_app/core/colors_manager.dart';
 import 'package:todo_app/presentation/screens/auth/login/login_screen.dart';
+import 'package:todo_app/provider/language_provider.dart';
 import 'package:todo_app/provider/theme_provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 class SettingsTab extends StatefulWidget {
    const SettingsTab({super.key});
 
@@ -12,8 +14,18 @@ class SettingsTab extends StatefulWidget {
 }
 
 class _SettingsTabState extends State<SettingsTab> {
-  String? selectedTheme='Light';
-  String? selectedLang='English';
+  String? selectedTheme;
+  String? selectedLang;
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    selectedTheme = context.read<ThemeProvider>().currentTheme == ThemeMode.light
+        ? AppLocalizations.of(context)!.light
+        : AppLocalizations.of(context)!.dark;
+    selectedLang = context.read<LanguageProvider>().currentLang == 'en'
+        ? AppLocalizations.of(context)!.english
+        : AppLocalizations.of(context)!.arabic;
+  }
   @override
   Widget build(BuildContext context) {
     return  Padding(
@@ -21,7 +33,7 @@ class _SettingsTabState extends State<SettingsTab> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('Theme',style: Theme.of(context).textTheme.labelSmall,),
+            Text(AppLocalizations.of(context)!.theme,style: Theme.of(context).textTheme.labelSmall,),
             Container(
               width: double.infinity,
               height: 60,
@@ -44,7 +56,10 @@ class _SettingsTabState extends State<SettingsTab> {
                     padding: const EdgeInsets.all(0),
                     isExpanded: false,
                     style: const TextStyle(color: Colors.black,fontSize: 14,fontWeight: FontWeight.w400),
-                    items: <String>['Light','Dark'].map((String value) {
+                    items: <String>[
+                      AppLocalizations.of(context)!.light,
+                      AppLocalizations.of(context)!.dark
+                    ].map((String value) {
                       return DropdownMenuItem<String>(
                         value: value,
                         child: Text(value),
@@ -54,7 +69,7 @@ class _SettingsTabState extends State<SettingsTab> {
                       setState(() {
                         selectedTheme = newTheme;
                       });
-                     context.read<ThemeProvider>().changeAppTheme(newTheme=='Light'?ThemeMode.light:ThemeMode.dark);
+                     context.read<ThemeProvider>().changeAppTheme(newTheme==AppLocalizations.of(context)!.light?ThemeMode.light:ThemeMode.dark);
 
                     },
                   )
@@ -62,7 +77,7 @@ class _SettingsTabState extends State<SettingsTab> {
                 ],
               ),
             ),
-            Text('Language',style: Theme.of(context).textTheme.labelSmall,),
+            Text(AppLocalizations.of(context)!.language,style: Theme.of(context).textTheme.labelSmall,),
             Container(
               width: double.infinity,
               height: 60,
@@ -79,23 +94,26 @@ class _SettingsTabState extends State<SettingsTab> {
                       fontSize: 16
                   ),),
                   DropdownButton<String>(
-                    underline: const SizedBox.shrink(),
+                    underline:  SizedBox.shrink(),
                     dropdownColor: Colors.white,
                     elevation: 0,
                     padding: const EdgeInsets.all(0),
                     isExpanded: false,
                     style: const TextStyle(color: Colors.black,fontSize: 14,fontWeight: FontWeight.w400),
-                    items: <String>['English','Arabic'].map((String value) {
+                    items: <String>[
+                      AppLocalizations.of(context)!.english,
+                      AppLocalizations.of(context)!.arabic
+                    ].map((String value) {
                       return DropdownMenuItem<String>(
                         value: value,
                         child: Text(value),
                       );
                     }).toList(),
-                    onChanged: (newTheme) {
+                    onChanged: (newLang) {
                       setState(() {
-                        selectedLang = newTheme;
+                        selectedLang = newLang;
                       });
-                      // context.read<ThemeProvider>().changeAppTheme(newTheme=='Light'?ThemeMode.light:ThemeMode.dark);
+                      context.read<LanguageProvider>().changeAppLang(newLang==AppLocalizations.of(context)!.english?'en':'ar');
 
                     },
                   )
@@ -107,7 +125,7 @@ class _SettingsTabState extends State<SettingsTab> {
             Center(child: ElevatedButton(onPressed: (){
               FirebaseAuth.instance.signOut();
               Navigator.push(context, MaterialPageRoute(builder: (context) => const LoginScreen(),));
-            }, child: const Text('Logout'),)),
+            }, child:  Text(AppLocalizations.of(context)!.log_out),)),
           ],
       ),
     );

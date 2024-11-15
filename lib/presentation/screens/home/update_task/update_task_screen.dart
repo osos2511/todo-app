@@ -5,7 +5,7 @@ import '../../../../core/colors_manager.dart';
 import '../../../../core/utils/dialog_utils.dart';
 import '../../../../database_manager/model/todo_dm.dart';
 import '../../../../database_manager/model/user_dm.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 class UpdateTaskScreen extends StatefulWidget {
   UpdateTaskScreen({super.key, this.todoDm});
   TodoDm? todoDm;
@@ -30,7 +30,7 @@ class _UpdateTaskScreenState extends State<UpdateTaskScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('To Do List'),
+        title:  Text(AppLocalizations.of(context)!.todo_List),
         centerTitle: true,
       ),
       body: Padding(
@@ -54,7 +54,7 @@ class _UpdateTaskScreenState extends State<UpdateTaskScreen> {
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     Text(
-                      'Update Task',
+                      AppLocalizations.of(context)!.edit_Task,
                       textAlign: TextAlign.center,
                       style: Theme.of(context).textTheme.headlineMedium,
                     ),
@@ -67,7 +67,7 @@ class _UpdateTaskScreenState extends State<UpdateTaskScreen> {
                         return null;
                       },
                       decoration: InputDecoration(
-                          hintText: 'Enter your task',
+                          hintText: AppLocalizations.of(context)!.add_title,
                           hintStyle: Theme.of(context).textTheme.displayMedium),
                     ),
                     TextFormField(
@@ -79,7 +79,7 @@ class _UpdateTaskScreenState extends State<UpdateTaskScreen> {
                         return null;
                       },
                       decoration: InputDecoration(
-                        hintText: 'Enter your Description',
+                        hintText: AppLocalizations.of(context)!.add_description,
                         hintStyle: Theme.of(context).textTheme.displayMedium,
                       ),
                     ),
@@ -87,7 +87,7 @@ class _UpdateTaskScreenState extends State<UpdateTaskScreen> {
                       height: 8,
                     ),
                     Text(
-                      'Select Date',
+                      AppLocalizations.of(context)!.select_date,
                       style:
                           Theme.of(context).textTheme.displayMedium!.copyWith(
                                 color: Theme.of(context).canvasColor,
@@ -114,7 +114,7 @@ class _UpdateTaskScreenState extends State<UpdateTaskScreen> {
                       },
                       style: ElevatedButton.styleFrom(
                           backgroundColor: ColorsManager.blueColor),
-                      child: const Text('Update Task'),
+                      child:  Text(AppLocalizations.of(context)!.edit_Task_button),
                     ),
                   ],
                 ),

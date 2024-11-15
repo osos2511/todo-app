@@ -8,6 +8,7 @@ import '../../../../core/constant_manager.dart';
 import '../../../../core/reusable_components/custom_text_form_field.dart';
 import '../../../../core/routes_manager.dart';
 import '../../../../core/utils/dialog_utils.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -39,12 +40,12 @@ class _LoginScreenState extends State<LoginScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'E-mail',
+                    AppLocalizations.of(context)!.email,
                     style: Theme.of(context).textTheme.labelMedium,
                   ),
                   buildEmailField(),
                   Text(
-                    'Password',
+                    AppLocalizations.of(context)!.password,
                     style: Theme.of(context).textTheme.labelMedium,
                   ),
                   buildPassField(),
@@ -62,23 +63,23 @@ class _LoginScreenState extends State<LoginScreen> {
                           borderRadius: BorderRadius.circular(10),
                         )),
                     child: Text(
-                      StringsManager.logIn,
+                      AppLocalizations.of(context)!.sign_in,
                       style: Theme.of(context).textTheme.displaySmall,
                     ),
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const Text(
-                        'Dont have account?',
+                       Text(
+                        AppLocalizations.of(context)!.dont_have_account,
                         style: TextStyle(color: Colors.white, fontSize: 14),
                       ),
                       TextButton(
                           onPressed: () {
                             Navigator.pushReplacementNamed(context, RoutesManager.registerRoute);
                           },
-                          child: const Text(
-                            StringsManager.register,
+                          child:  Text(
+                            AppLocalizations.of(context)!.sign_up,
                             style: TextStyle(
                                 color: Colors.white,
                                 fontSize: 16,
@@ -96,7 +97,7 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   Widget buildEmailField()=>CustomTextFormField(
-    hintText: 'Enter your E-mail',
+    hintText: AppLocalizations.of(context)!.enter_your_email,
     validator: (input) {
       if (input == null || input.trim().isEmpty) {
         return 'plz,enter your E-mail';
@@ -108,7 +109,7 @@ class _LoginScreenState extends State<LoginScreen> {
   );
 
   Widget buildPassField()=>CustomTextFormField(
-    hintText: 'Enter your password',
+    hintText: AppLocalizations.of(context)!.enter_your_password,
     validator: (input) {
       if (input == null || input.trim().isEmpty) {
         return 'plz,enter your password';
