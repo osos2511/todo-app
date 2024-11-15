@@ -22,6 +22,7 @@ class _UpdateTaskScreenState extends State<UpdateTaskScreen> {
     // TODO: implement initState
     super.initState();
     if (widget.todoDm != null) {
+      userSelectedDate=widget.todoDm!.date;
       titleController.text = widget.todoDm!.title;
       descriptionController.text = widget.todoDm!.description;
     }
@@ -35,92 +36,88 @@ class _UpdateTaskScreenState extends State<UpdateTaskScreen> {
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 15),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Container(
-              width: 300,
-              height: 600,
-              padding: const EdgeInsets.all(8),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(15),
-                
-              ),
-              child: Form(
-                key: formKey,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    Text(
-                      AppLocalizations.of(context)!.edit_Task,
-                      textAlign: TextAlign.center,
-                      style: Theme.of(context).textTheme.headlineMedium,
+        child: Center(
+          child: Container(
+            width: 352,
+            height: 617,
+            padding: const EdgeInsets.all(8),
+            decoration: BoxDecoration(
+              color: Theme.of(context).indicatorColor,
+              borderRadius: BorderRadius.circular(15),
+
+            ),
+            child: Form(
+              key: formKey,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Text(
+                    AppLocalizations.of(context)!.edit_Task,
+                    textAlign: TextAlign.center,
+                    style: Theme.of(context).textTheme.headlineMedium,
+                  ),
+                  TextFormField(
+                    controller: titleController,
+                    validator: (input) {
+                      if (input == null || input.trim().isEmpty) {
+                        return 'plz, enter your title';
+                      }
+                      return null;
+                    },
+                    decoration: InputDecoration(
+                        hintText: AppLocalizations.of(context)!.add_title,
+                        hintStyle: Theme.of(context).textTheme.displayMedium),
+                  ),
+                  TextFormField(
+                    controller: descriptionController,
+                    validator: (input) {
+                      if (input == null || input.trim().isEmpty) {
+                        return 'plz, enter your description';
+                      }
+                      return null;
+                    },
+                    decoration: InputDecoration(
+                      hintText: AppLocalizations.of(context)!.add_description,
+                      hintStyle: Theme.of(context).textTheme.displayMedium,
                     ),
-                    TextFormField(
-                      controller: titleController,
-                      validator: (input) {
-                        if (input == null || input.trim().isEmpty) {
-                          return 'plz, enter your title';
-                        }
-                        return null;
+                  ),
+                  const SizedBox(
+                    height: 8,
+                  ),
+                  Text(
+                    AppLocalizations.of(context)!.select_date,
+                    style:
+                        Theme.of(context).textTheme.displayMedium!.copyWith(
+                              color: Theme.of(context).canvasColor,
+                            ),
+                  ),
+                  InkWell(
+                      onTap: () {
+                        showTaskDatePicker();
                       },
-                      decoration: InputDecoration(
-                          hintText: AppLocalizations.of(context)!.add_title,
-                          hintStyle: Theme.of(context).textTheme.displayMedium),
-                    ),
-                    TextFormField(
-                      controller: descriptionController,
-                      validator: (input) {
-                        if (input == null || input.trim().isEmpty) {
-                          return 'plz, enter your description';
-                        }
-                        return null;
-                      },
-                      decoration: InputDecoration(
-                        hintText: AppLocalizations.of(context)!.add_description,
-                        hintStyle: Theme.of(context).textTheme.displayMedium,
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 8,
-                    ),
-                    Text(
-                      AppLocalizations.of(context)!.select_date,
-                      style:
-                          Theme.of(context).textTheme.displayMedium!.copyWith(
-                                color: Theme.of(context).canvasColor,
-                              ),
-                    ),
-                    InkWell(
-                        onTap: () {
-                          showTaskDatePicker();
-                        },
-                        child: Text(
-                          userSelectedDate.dateFormatted(),
-                          textAlign: TextAlign.center,
-                          style: Theme.of(context).textTheme.displayMedium,
-                        )),
-                    const Spacer(),
-                    ElevatedButton(
-                      onPressed: () {
-                        if (formKey.currentState?.validate() == true) {
-                          setState(() {
-                            updateToDoToFireStore();
-                          });
-                          Navigator.pop(context);
-                        }
-                      },
-                      style: ElevatedButton.styleFrom(
-                          backgroundColor: ColorsManager.blueColor),
-                      child:  Text(AppLocalizations.of(context)!.edit_Task_button),
-                    ),
-                  ],
-                ),
+                      child: Text(
+                        userSelectedDate.dateFormatted(),
+                        textAlign: TextAlign.center,
+                        style: Theme.of(context).textTheme.displayMedium,
+                      )),
+                  const Spacer(),
+                  ElevatedButton(
+                    onPressed: () {
+                      if (formKey.currentState?.validate() == true) {
+                        setState(() {
+                          updateToDoToFireStore();
+                        });
+                        Navigator.pop(context);
+                      }
+                    },
+                    style: ElevatedButton.styleFrom(
+                        backgroundColor: ColorsManager.blueColor),
+                    child:  Text(AppLocalizations.of(context)!.edit_Task_button),
+                  ),
+                ],
               ),
             ),
-          ],
+          ),
         ),
       ),
     );

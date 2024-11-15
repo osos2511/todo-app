@@ -29,67 +29,69 @@ class _LoginScreenState extends State<LoginScreen> {
         backgroundColor: const Color(0xFF004182),
         body: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8),
-          child: Column(
-            children: [
-              Container(
-                height: 80,
-                margin: const EdgeInsets.symmetric(vertical: 20),
-                child: Center(child: Image.asset(AssetsManager.routeLogo)),
-              ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    AppLocalizations.of(context)!.email,
-                    style: Theme.of(context).textTheme.labelMedium,
-                  ),
-                  buildEmailField(),
-                  Text(
-                    AppLocalizations.of(context)!.password,
-                    style: Theme.of(context).textTheme.labelMedium,
-                  ),
-                  buildPassField(),
-                  const SizedBox(
-                    height: 40,
-                  ),
-                  ElevatedButton(
-                    onPressed: () {
-                      signIn(context);
-                    },
-                    style: ElevatedButton.styleFrom(
-                        minimumSize: const Size(double.infinity, 50),
-                        backgroundColor: Colors.white,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10),
-                        )),
-                    child: Text(
-                      AppLocalizations.of(context)!.sign_in,
-                      style: Theme.of(context).textTheme.displaySmall,
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                Container(
+                  height: 80,
+                  margin: const EdgeInsets.symmetric(vertical: 20),
+                  child: Center(child: Image.asset(AssetsManager.routeLogo)),
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      AppLocalizations.of(context)!.email,
+                      style: Theme.of(context).textTheme.labelMedium,
                     ),
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                       Text(
-                        AppLocalizations.of(context)!.dont_have_account,
-                        style: TextStyle(color: Colors.white, fontSize: 14),
-                      ),
-                      TextButton(
-                          onPressed: () {
-                            Navigator.pushReplacementNamed(context, RoutesManager.registerRoute);
-                          },
-                          child:  Text(
-                            AppLocalizations.of(context)!.sign_up,
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 16,
-                                decoration: TextDecoration.underline),
+                    buildEmailField(),
+                    Text(
+                      AppLocalizations.of(context)!.password,
+                      style: Theme.of(context).textTheme.labelMedium,
+                    ),
+                    buildPassField(),
+                    const SizedBox(
+                      height: 40,
+                    ),
+                    ElevatedButton(
+                      onPressed: () {
+                        signIn(context);
+                      },
+                      style: ElevatedButton.styleFrom(
+                          minimumSize: const Size(double.infinity, 50),
+                          backgroundColor: Colors.white,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
                           )),
-                    ],
-                  ),
-                ],
-              ),
-            ],
+                      child: Text(
+                        AppLocalizations.of(context)!.sign_in,
+                        style: Theme.of(context).textTheme.displaySmall,
+                      ),
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                         Text(
+                          AppLocalizations.of(context)!.dont_have_account,
+                          style: TextStyle(color: Colors.white, fontSize: 14),
+                        ),
+                        TextButton(
+                            onPressed: () {
+                              Navigator.pushReplacementNamed(context, RoutesManager.registerRoute);
+                            },
+                            child:  Text(
+                              AppLocalizations.of(context)!.sign_up,
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 16,
+                                  decoration: TextDecoration.underline),
+                            )),
+                      ],
+                    ),
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
       ),

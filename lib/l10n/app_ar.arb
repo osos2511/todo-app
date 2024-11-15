@@ -21,7 +21,7 @@
   "add_task_button": "أضف المهمة",
   "delete": "حذف",
   "edit": "تعديل",
-  "todo_list": "قائمة المهام",
+  "todo_List": "قائمة المهام",
   "light": "فاتح",
   "dark": "داكن",
   "tasks": "المهام",
@@ -31,5 +31,6 @@
   "english": "إنجليزي",
   "arabic": "عربي",
   "noTasks": "لا يوجد مهام",
-  "edit_task": "تعديل المهمة"
+  "edit_Task": "تعديل المهمة",
+  "edit_Task_button": "تعديل المهمة"
 }
