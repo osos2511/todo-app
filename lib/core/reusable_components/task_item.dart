@@ -5,6 +5,7 @@ import 'package:todo_app/core/utils/dialog_utils.dart';
 import 'package:todo_app/database_manager/model/todo_dm.dart';
 import 'package:todo_app/database_manager/model/user_dm.dart';
 import 'package:todo_app/presentation/screens/home/update_task/update_task_screen.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 class TaskItem extends StatefulWidget {
   Function onDeleteClicked;
   TaskItem({super.key, required this.todo, required this.onDeleteClicked});
@@ -38,7 +39,7 @@ class _TaskItemState extends State<TaskItem> {
               backgroundColor: const Color(0xFFFE4A49),
               foregroundColor: Colors.white,
               icon: Icons.delete,
-              label: 'Delete',
+              label: AppLocalizations.of(context)!.delete,
             ),
           ],
         ),
@@ -54,7 +55,7 @@ class _TaskItemState extends State<TaskItem> {
               backgroundColor: Theme.of(context).primaryColor,
               foregroundColor: Colors.white,
               icon: Icons.edit,
-              label: 'Edit',
+              label: AppLocalizations.of(context)!.edit,
             ),
           ],
         ),
