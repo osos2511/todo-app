@@ -6,7 +6,7 @@ import 'package:todo_app/core/colors_manager.dart';
 import 'package:todo_app/core/reusable_components/task_item.dart';
 import 'package:todo_app/database_manager/model/user_dm.dart';
 import '../../../../../database_manager/model/todo_dm.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 class TasksTab extends StatefulWidget {
   const TasksTab({super.key});
 
@@ -53,7 +53,7 @@ class TasksTabState extends State<TasksTab> {
             } else {
               final data = snapshot.data;
               if (data == null || data.isEmpty) {
-                return  Text('No Tasks',style: TextStyle(color: Theme.of(context).canvasColor),);
+                return  Text(AppLocalizations.of(context)!.noTasks,style: TextStyle(color: Theme.of(context).canvasColor),);
               }
               return Expanded(
                 flex: 70,

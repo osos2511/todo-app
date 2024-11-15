@@ -1,15 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:todo_app/core/assets_manager.dart';
 import 'package:todo_app/core/constant_manager.dart';
 import 'package:todo_app/core/routes_manager.dart';
-import 'package:todo_app/core/strings_manager.dart';
 import 'package:todo_app/core/utils/dialog_utils.dart';
 import 'package:todo_app/database_manager/model/user_dm.dart';
 import '../../../../core/reusable_components/custom_text_form_field.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 class RegisterScreen extends StatefulWidget {
   RegisterScreen({super.key});
 
@@ -44,15 +42,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      buildTitleField('Full Name'),
+                      buildTitleField(AppLocalizations.of(context)!.full_name),
                       buildFullNameField(),
-                      buildTitleField('User Name'),
+                      buildTitleField(AppLocalizations.of(context)!.user_name),
                       buildUserNameField(),
-                      buildTitleField('E-mail'),
+                      buildTitleField(AppLocalizations.of(context)!.email),
                       buildEmailField(),
-                      buildTitleField('Password'),
+                      buildTitleField(AppLocalizations.of(context)!.password),
                       buildPassField(),
-                      buildTitleField('Re-password'),
+                      buildTitleField(AppLocalizations.of(context)!.re_password),
                       buildRePassField(),
                       const SizedBox(
                         height: 40,
@@ -68,25 +66,25 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               borderRadius: BorderRadius.circular(10),
                             )),
                         child: Text(
-                          StringsManager.register,
+                          AppLocalizations.of(context)!.sign_up,
                           style: Theme.of(context).textTheme.displaySmall,
                         ),
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          const Text(
-                            'Already have account?',
-                            style: TextStyle(color: Colors.white, fontSize: 14),
+                           Text(
+                             AppLocalizations.of(context)!.already_have_account,
+                            style: const TextStyle(color: Colors.white, fontSize: 14),
                           ),
                           TextButton(
                               onPressed: () {
                                 Navigator.pushReplacementNamed(
                                     context, RoutesManager.loginRoute);
                               },
-                              child: const Text(
-                                StringsManager.logIn,
-                                style: TextStyle(
+                              child:  Text(
+                                AppLocalizations.of(context)!.sign_in,
+                                style: const TextStyle(
                                     color: Colors.white,
                                     fontSize: 16,
                                     decoration: TextDecoration.underline),
@@ -105,7 +103,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   }
 
   Widget buildFullNameField() => CustomTextFormField(
-        hintText: 'Enter your full name',
+        hintText: AppLocalizations.of(context)!.enter_your_full_name,
         validator: (input) {
           String pattern = r'^[a-zA-Z]+$';
           RegExp regex = RegExp(pattern);
@@ -123,7 +121,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         controller: fullNameController,
       );
   Widget buildUserNameField() => CustomTextFormField(
-        hintText: 'Enter your user name',
+        hintText: AppLocalizations.of(context)!.enter_your_user_name,
         validator: (input) {
           if (input == null || input.trim().isEmpty) {
             return 'plz,enter your user name';
@@ -133,7 +131,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         controller: userNameController,
       );
   Widget buildEmailField() => CustomTextFormField(
-        hintText: 'Enter your E-mail',
+        hintText: AppLocalizations.of(context)!.enter_your_email,
         validator: (input) {
           if (input == null || input.trim().isEmpty) {
             return 'plz,enter your E-mail';
@@ -144,7 +142,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         controller: emailController,
       );
   Widget buildPassField() => CustomTextFormField(
-        hintText: 'Enter your password',
+        hintText: AppLocalizations.of(context)!.enter_your_password,
         validator: (input) {
           if (input == null || input.trim().isEmpty) {
             return 'plz,enter your password';
@@ -158,7 +156,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         isSecure: true,
       );
   Widget buildRePassField() => CustomTextFormField(
-        hintText: 'Confirm password',
+        hintText: AppLocalizations.of(context)!.enter_your_re_password,
         validator: (input) {
           if (input == null || input.trim().isEmpty) {
             return 'plz,enter your password';
