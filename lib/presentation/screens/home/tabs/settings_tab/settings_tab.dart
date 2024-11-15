@@ -1,6 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:todo_app/core/colors_manager.dart';
+import 'package:todo_app/presentation/screens/auth/login/login_screen.dart';
 import 'package:todo_app/provider/theme_provider.dart';
 class SettingsTab extends StatefulWidget {
    const SettingsTab({super.key});
@@ -11,6 +13,7 @@ class SettingsTab extends StatefulWidget {
 
 class _SettingsTabState extends State<SettingsTab> {
   String? selectedTheme='Light';
+  String? selectedLang='English';
   @override
   Widget build(BuildContext context) {
     return  Padding(
@@ -48,6 +51,9 @@ class _SettingsTabState extends State<SettingsTab> {
                       );
                     }).toList(),
                     onChanged: (newTheme) {
+                      setState(() {
+                        selectedTheme = newTheme;
+                      });
                      context.read<ThemeProvider>().changeAppTheme(newTheme=='Light'?ThemeMode.light:ThemeMode.dark);
 
                     },
@@ -56,6 +62,52 @@ class _SettingsTabState extends State<SettingsTab> {
                 ],
               ),
             ),
+            Text('Language',style: Theme.of(context).textTheme.labelSmall,),
+            Container(
+              width: double.infinity,
+              height: 60,
+              margin: const EdgeInsets.symmetric(vertical: 10),
+              padding: const EdgeInsets.all(15),
+              decoration: const BoxDecoration(
+                color: Colors.white,
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(selectedLang??'',style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                      color: ColorsManager.blueColor,
+                      fontSize: 16
+                  ),),
+                  DropdownButton<String>(
+                    underline: const SizedBox.shrink(),
+                    dropdownColor: Colors.white,
+                    elevation: 0,
+                    padding: const EdgeInsets.all(0),
+                    isExpanded: false,
+                    style: const TextStyle(color: Colors.black,fontSize: 14,fontWeight: FontWeight.w400),
+                    items: <String>['English','Arabic'].map((String value) {
+                      return DropdownMenuItem<String>(
+                        value: value,
+                        child: Text(value),
+                      );
+                    }).toList(),
+                    onChanged: (newTheme) {
+                      setState(() {
+                        selectedLang = newTheme;
+                      });
+                      // context.read<ThemeProvider>().changeAppTheme(newTheme=='Light'?ThemeMode.light:ThemeMode.dark);
+
+                    },
+                  )
+
+                ],
+              ),
+            ),
+            const SizedBox(height: 20,),
+            Center(child: ElevatedButton(onPressed: (){
+              FirebaseAuth.instance.signOut();
+              Navigator.push(context, MaterialPageRoute(builder: (context) => const LoginScreen(),));
+            }, child: const Text('Logout'),)),
           ],
       ),
     );

@@ -11,25 +11,25 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  GlobalKey<TasksTabState>tasksTabKey=GlobalKey();
+  GlobalKey<TasksTabState> tasksTabKey = GlobalKey();
   List<Widget> tabs = [];
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     tabs = [
-      TasksTab(key: tasksTabKey,),
+      const TasksTab(),
       const SettingsTab(),
     ];
   }
 
   int selectedIndex = 0;
-  String appBarMyApp='To Do List';
+  String appBarMyApp = 'To Do List';
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title:  Text(appBarMyApp),
+        title: Text(appBarMyApp),
       ),
       extendBody: true,
       floatingActionButton: buildFab(),
@@ -38,33 +38,32 @@ class _HomeScreenState extends State<HomeScreen> {
       body: tabs[selectedIndex],
     );
   }
+
   Widget buildFab() => FloatingActionButton(
-    onPressed: ()async {
-     await AddTaskBottomSheet.show(context);
-     tasksTabKey.currentState!.readTodosFromFireStore();
-    },
-    child: const Icon(Icons.add),
-  );
-  Widget buildBottomAppBar() => BottomAppBar(
-    notchMargin: 8,
-    child: BottomNavigationBar(
-        currentIndex: selectedIndex,
-        onTap: (index) {
-          setState(() {
-            selectedIndex = index;
-            if(selectedIndex==0){
-              appBarMyApp='To Do List';
-            }else{
-              appBarMyApp='Settings';
-            }
-          });
+        onPressed: () async {
+          await AddTaskBottomSheet.show(context);
+          //tasksTabKey.currentState!.readTodosFromFireStore();
         },
-
-        items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.list), label: 'Tasks'),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.settings), label: 'Settings'),
-        ]),
-  );
-
+        child: const Icon(Icons.add),
+      );
+  Widget buildBottomAppBar() => BottomAppBar(
+        notchMargin: 8,
+        child: BottomNavigationBar(
+            currentIndex: selectedIndex,
+            onTap: (index) {
+              setState(() {
+                selectedIndex = index;
+                if (selectedIndex == 0) {
+                  appBarMyApp = 'To Do List';
+                } else {
+                  appBarMyApp = 'Settings';
+                }
+              });
+            },
+            items: const [
+              BottomNavigationBarItem(icon: Icon(Icons.list), label: 'Tasks'),
+              BottomNavigationBarItem(
+                  icon: Icon(Icons.settings), label: 'Settings'),
+            ]),
+      );
 }

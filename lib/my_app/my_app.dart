@@ -12,7 +12,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       onGenerateRoute: RoutesManager.router,
-      initialRoute: RoutesManager.registerRoute,
+      initialRoute: RoutesManager.loginRoute,
       themeMode: provider.currentTheme,
       theme: MyTheme.light,
       darkTheme: MyTheme.dark,

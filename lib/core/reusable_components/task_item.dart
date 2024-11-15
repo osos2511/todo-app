@@ -4,8 +4,7 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:todo_app/core/utils/dialog_utils.dart';
 import 'package:todo_app/database_manager/model/todo_dm.dart';
 import 'package:todo_app/database_manager/model/user_dm.dart';
-import 'package:todo_app/presentation/screens/home/update_task_bottom_sheet/update_task_bottom_sheet.dart';
-
+import 'package:todo_app/presentation/screens/home/update_task/update_task_screen.dart';
 class TaskItem extends StatefulWidget {
   Function onDeleteClicked;
   TaskItem({super.key, required this.todo, required this.onDeleteClicked});
@@ -49,15 +48,7 @@ class _TaskItemState extends State<TaskItem> {
           children: [
             SlidableAction(
               onPressed: (context) {
-                showModalBottomSheet(
-                  isScrollControlled: true,
-                  context: context,
-                  builder: (context) => Padding(
-                    padding:
-                    EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
-                    child: UpdateTaskBottomSheet(todoDm: widget.todo,),
-                  ),
-                );
+                Navigator.push( context,MaterialPageRoute(builder: (context) => UpdateTaskScreen(todoDm: widget.todo,),));
               },
               borderRadius: BorderRadius.circular(15),
               backgroundColor: Theme.of(context).primaryColor,
